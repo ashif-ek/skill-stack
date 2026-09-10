@@ -1,12 +1,14 @@
 import { useEffect, useState } from "react";
 import { getGoal, updateGoal, deleteGoal } from "../services/api";
 import LogActivityModal from "./LogActivityModal";
+import EditGoalModal from "./EditGoalModal";
 
 export default function GoalDetailsModal({ goalId, onClose, onUpdated }) {
   const [goal, setGoal] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
   const [showLogActivity, setShowLogActivity] = useState(false);
+  const [showEditGoal, setShowEditGoal] = useState(false);
   const [updating, setUpdating] = useState(false);
 
   useEffect(() => {
@@ -195,6 +197,13 @@ export default function GoalDetailsModal({ goalId, onClose, onUpdated }) {
             </button>
 
             <div className="flex gap-2">
+              <button
+                onClick={() => setShowEditGoal(true)}
+                disabled={updating}
+                className="rounded-lg border border-slate-200 bg-white px-4 py-2 text-sm font-medium text-slate-700 shadow-sm transition-colors hover:bg-slate-50 focus:outline-none focus:ring-2 focus:ring-slate-900 disabled:opacity-50"
+              >
+                Edit Goal
+              </button>
               {goal.status !== "completed" && (
                 <button
                   onClick={() => handleStatusChange("completed")}
@@ -224,6 +233,17 @@ export default function GoalDetailsModal({ goalId, onClose, onUpdated }) {
           goalName={goal.skill_name}
           onClose={() => setShowLogActivity(false)}
           onLogged={() => {
+            loadGoalDetails();
+            onUpdated();
+          }}
+        />
+      )}
+
+      {showEditGoal && (
+        <EditGoalModal
+          goal={goal}
+          onClose={() => setShowEditGoal(false)}
+          onUpdated={() => {
             loadGoalDetails();
             onUpdated();
           }}

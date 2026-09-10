@@ -28,7 +28,9 @@ export default function GoalCard({ goal, onClick }) {
 
       <div className="mt-4">
         <div className="mb-1.5 flex justify-between text-xs">
-          <span className="font-medium text-slate-500">Progress</span>
+          <span className="font-medium text-slate-500">
+            {goal.status === "completed" ? "Completed" : goal.progress > 0 ? "Keep going" : "Ready when you are"}
+          </span>
           <span className="font-bold text-slate-900">{goal.progress}%</span>
         </div>
 

@@ -4,6 +4,7 @@ import AddGoalModal from "../components/AddGoalModal";
 import GoalCard from "../components/GoalCard";
 import StatCard from "../components/StatCard";
 import GoalDetailsModal from "../components/GoalDetailsModal";
+import DashboardSkeleton from "../components/DashboardSkeleton";
 import { getDashboard, getGoals } from "../services/api";
 
 export default function Dashboard() {
@@ -14,9 +15,9 @@ export default function Dashboard() {
   const [showAddGoal, setShowAddGoal] = useState(false);
   const [selectedGoalId, setSelectedGoalId] = useState(null);
 
-  async function loadData() {
+  async function loadData(isBackground = false) {
     try {
-      setLoading(true);
+      if (!isBackground) setLoading(true);
       setError("");
 
       const [dashboardData, goalsData] = await Promise.all([
@@ -29,20 +30,16 @@ export default function Dashboard() {
     } catch (err) {
       setError("Unable to load your learning data.");
     } finally {
-      setLoading(false);
+      if (!isBackground) setLoading(false);
     }
   }
 
   useEffect(() => {
-    loadData();
+    loadData(false);
   }, []);
 
-  if (loading) {
-    return (
-      <div className="flex min-h-screen items-center justify-center">
-        <p className="text-gray-500">Loading SkillStack...</p>
-      </div>
-    );
+  if (loading && !dashboard) {
+    return <DashboardSkeleton />;
   }
 
   if (error) {
@@ -66,6 +63,9 @@ export default function Dashboard() {
             <h1 className="text-2xl font-bold tracking-tight text-slate-900">
               Learning Dashboard
             </h1>
+            <p className="mt-1 text-sm text-slate-500">
+              Build skills. Track progress. Keep moving.
+            </p>
           </div>
           <button
             onClick={() => setShowAddGoal(true)}
@@ -96,8 +96,9 @@ export default function Dashboard() {
                   />
                 ))}
                 {goals.length === 0 && (
-                  <div className="col-span-full rounded-xl border border-dashed border-slate-300 bg-white p-8 text-center text-sm text-slate-500">
-                    No learning goals yet. Click "Add Goal" to get started!
+                  <div className="col-span-full flex flex-col items-center justify-center rounded-xl border border-dashed border-slate-300 bg-slate-50 py-10 px-4 text-center">
+                    <p className="text-sm font-medium text-slate-900">Your learning journey starts here.</p>
+                    <p className="mt-1 text-xs text-slate-500">Click "Add Goal" to create your first skill and begin tracking.</p>
                   </div>
                 )}
               </div>
@@ -141,6 +142,11 @@ export default function Dashboard() {
                 <span className="text-[10px] font-medium text-slate-500 uppercase tracking-wider">Last 7 Days</span>
               </div>
               <div className="p-4 space-y-4">
+                <p className="text-xs text-slate-500 pb-2 border-b border-slate-50">
+                  {pulse.momentum === 'Strong' ? "You're on a great streak. Keep the momentum going!" :
+                   pulse.momentum === 'Good' ? "Consistent progress. Every hour counts." :
+                   "Ready to pick up where you left off?"}
+                </p>
                 <div className="flex items-center justify-between">
                   <span className="text-sm text-slate-600">Momentum</span>
                   <span className="inline-flex items-center gap-1.5 text-sm font-medium text-slate-900">
@@ -171,7 +177,7 @@ export default function Dashboard() {
             {dashboard.category_breakdown.length > 0 && (
               <div className="rounded-xl border border-slate-200 bg-white shadow-sm">
                 <div className="border-b border-slate-100 bg-slate-50/50 px-4 py-3">
-                  <h2 className="text-sm font-semibold text-slate-900">Category Breakdown</h2>
+                  <h2 className="text-sm font-semibold text-slate-900">Where your time is going</h2>
                 </div>
                 <div className="p-4 space-y-4">
                   {dashboard.category_breakdown.map((item) => (
@@ -196,7 +202,7 @@ export default function Dashboard() {
             {dashboard.recent_activity.length > 0 && (
               <div className="rounded-xl border border-slate-200 bg-white shadow-sm">
                 <div className="border-b border-slate-100 bg-slate-50/50 px-4 py-3">
-                  <h2 className="text-sm font-semibold text-slate-900">Recent Activity</h2>
+                  <h2 className="text-sm font-semibold text-slate-900">Your learning trail</h2>
                 </div>
                 <div className="divide-y divide-slate-100 p-4">
                   {dashboard.recent_activity.map((activity) => (
@@ -225,7 +231,7 @@ export default function Dashboard() {
       {showAddGoal && (
         <AddGoalModal
           onClose={() => setShowAddGoal(false)}
-          onCreated={loadData}
+          onCreated={() => loadData(true)}
         />
       )}
 
@@ -233,7 +239,7 @@ export default function Dashboard() {
         <GoalDetailsModal
           goalId={selectedGoalId}
           onClose={() => setSelectedGoalId(null)}
-          onUpdated={loadData}
+          onUpdated={() => loadData(true)}
         />
       )}
     </main>
