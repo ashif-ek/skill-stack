@@ -78,7 +78,7 @@ DATABASES = {
     "default": dj_database_url.parse(
         os.environ["DATABASE_URL"],
         conn_max_age=600,
-        ssl_require=True,
+        ssl_require=not os.getenv("CI"),
     )
 }
 
