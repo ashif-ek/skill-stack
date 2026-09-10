@@ -6,22 +6,50 @@ export default function Footer() {
           <img src="/logo.jpg" alt="SkillStack Logo" className="h-6 w-6 rounded shadow-sm opacity-50 grayscale" />
           <p className="text-xs font-medium text-slate-500 uppercase tracking-wider">SkillStack</p>
         </div>
-        <div className="flex items-center gap-6">
+        <div className="flex flex-wrap items-center justify-center sm:justify-end gap-4 sm:gap-6">
           <a 
-            href="https://github.com/ashif-ek/skill-stack" 
-            target="_blank" 
-            rel="noreferrer"
+            href="mailto:ashifek11@gmail.com" 
             className="text-sm font-medium text-slate-500 hover:text-slate-900 transition-colors"
           >
-            GitHub Repository
+            Gmail
           </a>
           <a 
-            href="https://ashif-ek.github.io/docs-stack-material/projects/github_repos/skill-stack/" 
+            href="tel:+919037499763" 
+            className="text-sm font-medium text-slate-500 hover:text-slate-900 transition-colors"
+          >
+            Phone
+          </a>
+          <a 
+            href="https://ashifek.in" 
             target="_blank" 
             rel="noreferrer"
             className="text-sm font-medium text-slate-500 hover:text-slate-900 transition-colors"
           >
-            Documentation
+            Portfolio
+          </a>
+          <a 
+            href="https://linkedin.com/in/ashifek" 
+            target="_blank" 
+            rel="noreferrer"
+            className="text-sm font-medium text-slate-500 hover:text-slate-900 transition-colors"
+          >
+            LinkedIn
+          </a>
+          <a 
+            href="https://github.com/ashif-ek" 
+            target="_blank" 
+            rel="noreferrer"
+            className="text-sm font-medium text-slate-500 hover:text-slate-900 transition-colors"
+          >
+            GitHub
+          </a>
+          <a 
+            href="https://ashif-ek.github.io/docs-stack-material/" 
+            target="_blank" 
+            rel="noreferrer"
+            className="text-sm font-medium text-slate-500 hover:text-slate-900 transition-colors"
+          >
+            Doc-stack
           </a>
         </div>
       </div>
