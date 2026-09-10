@@ -57,25 +57,25 @@ export default function Dashboard() {
   const pulse = dashboard.learning_pulse;
 
   return (
-    <main className="min-h-screen bg-white font-sans text-neutral-900">
+    <main className="min-h-screen bg-slate-50 font-sans text-slate-900">
       <div className="mx-auto max-w-7xl px-4 py-8 sm:px-6 lg:px-8">
 
         {/* Header */}
         <header className="mb-10 flex flex-col md:flex-row md:items-end justify-between gap-4">
           <div>
-            <p className="text-sm font-semibold tracking-widest text-neutral-500 uppercase">
+            <p className="text-sm font-semibold tracking-widest text-slate-500 uppercase">
               SkillStack
             </p>
-            <h1 className="mt-1 text-3xl font-bold tracking-tight text-neutral-900 sm:text-4xl">
+            <h1 className="mt-1 text-3xl font-bold tracking-tight text-slate-900 sm:text-4xl">
               Learning Dashboard
             </h1>
-            <p className="mt-2 text-base text-neutral-500">
+            <p className="mt-2 text-base text-slate-500">
               Track your progress and build better learning habits.
             </p>
           </div>
           <button
             onClick={() => setShowAddGoal(true)}
-            className="inline-flex items-center justify-center rounded-md bg-neutral-900 px-4 py-2 text-sm font-medium text-white transition-colors hover:bg-neutral-800 focus:outline-none focus:ring-2 focus:ring-neutral-900 focus:ring-offset-2"
+            className="inline-flex items-center justify-center rounded-lg bg-blue-600 px-4 py-2 text-sm font-medium text-white shadow-sm transition-colors hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2"
           >
             Add Goal
           </button>
@@ -105,57 +105,57 @@ export default function Dashboard() {
         </section>
 
         {/* Learning Pulse */}
-        <section className="mt-8 overflow-hidden rounded-md border border-neutral-200 bg-white">
-          <div className="border-b border-neutral-200 bg-neutral-50 px-6 py-4 sm:flex sm:items-center sm:justify-between">
+        <section className="mt-8 overflow-hidden rounded-xl border border-slate-200 bg-white shadow-sm">
+          <div className="border-b border-slate-100 bg-slate-50/50 px-6 py-4 sm:flex sm:items-center sm:justify-between">
             <div>
-              <p className="text-xs font-semibold uppercase tracking-wider text-neutral-500">
+              <p className="text-xs font-semibold uppercase tracking-wider text-slate-500">
                 Learning Pulse
               </p>
-              <h2 className="mt-1 text-lg font-medium text-neutral-900 flex items-center gap-2">
+              <h2 className="mt-1 text-lg font-medium text-slate-900 flex items-center gap-2">
                 <span className={`inline-block h-2 w-2 rounded-full ${
-                  pulse.momentum === 'Strong' ? 'bg-neutral-900' :
-                  pulse.momentum === 'Good' ? 'bg-neutral-500' :
-                  'bg-neutral-300'
+                  pulse.momentum === 'Strong' ? 'bg-blue-600' :
+                  pulse.momentum === 'Good' ? 'bg-slate-400' :
+                  'bg-slate-300'
                 }`}></span>
                 {pulse.momentum} momentum
               </h2>
             </div>
 
             <div className="mt-4 sm:mt-0">
-              <span className="inline-flex items-center rounded-md border border-neutral-200 bg-white px-2.5 py-0.5 text-xs font-medium text-neutral-600">
+              <span className="inline-flex items-center rounded-md border border-slate-200 bg-white px-2.5 py-0.5 text-xs font-medium text-slate-600 shadow-sm">
                 Last 7 days
               </span>
             </div>
           </div>
 
-          <div className="grid gap-px bg-neutral-200 sm:grid-cols-3">
-            <div className="bg-white p-6">
-              <p className="text-sm font-medium text-neutral-500">
+          <div className="grid divide-y sm:divide-y-0 sm:divide-x divide-slate-100 bg-white sm:grid-cols-3">
+            <div className="p-6">
+              <p className="text-sm font-medium text-slate-500">
                 Learning time
               </p>
               <p className="mt-2 flex items-baseline gap-1">
-                <span className="text-2xl font-semibold text-neutral-900">{pulse.weekly_hours}</span>
-                <span className="text-sm font-medium text-neutral-500">hours</span>
+                <span className="text-2xl font-semibold text-slate-900">{pulse.weekly_hours}</span>
+                <span className="text-sm font-medium text-slate-500">hours</span>
               </p>
             </div>
 
-            <div className="bg-white p-6">
-              <p className="text-sm font-medium text-neutral-500">
+            <div className="p-6">
+              <p className="text-sm font-medium text-slate-500">
                 Active days
               </p>
               <p className="mt-2 flex items-baseline gap-1">
-                <span className="text-2xl font-semibold text-neutral-900">{pulse.active_days}</span>
-                <span className="text-sm font-medium text-neutral-500">/ 7</span>
+                <span className="text-2xl font-semibold text-slate-900">{pulse.active_days}</span>
+                <span className="text-sm font-medium text-slate-500">/ 7</span>
               </p>
             </div>
 
-            <div className="bg-white p-6">
-              <p className="text-sm font-medium text-neutral-500">
+            <div className="p-6">
+              <p className="text-sm font-medium text-slate-500">
                 Average progress
               </p>
               <p className="mt-2 flex items-baseline gap-1">
-                <span className="text-2xl font-semibold text-neutral-900">{pulse.average_progress}</span>
-                <span className="text-sm font-medium text-neutral-500">%</span>
+                <span className="text-2xl font-semibold text-slate-900">{pulse.average_progress}</span>
+                <span className="text-sm font-medium text-slate-500">%</span>
               </p>
             </div>
           </div>
@@ -164,8 +164,8 @@ export default function Dashboard() {
         {/* Goals + Categories */}
         <section className="mt-12 grid gap-8 lg:grid-cols-3">
           <div className="lg:col-span-2">
-            <div className="mb-6 border-b border-neutral-200 pb-2">
-              <h2 className="text-lg font-medium text-neutral-900">
+            <div className="mb-6 flex items-center justify-between">
+              <h2 className="text-lg font-semibold text-slate-900">
                 Learning Goals
               </h2>
             </div>
@@ -182,25 +182,23 @@ export default function Dashboard() {
           </div>
 
           {/* Sidebar */}
-          <div className="space-y-8">
+          <div className="space-y-6">
             {/* Category breakdown */}
-            <div>
-              <div className="mb-4 border-b border-neutral-200 pb-2">
-                <h2 className="text-lg font-medium text-neutral-900">
-                  Category Breakdown
-                </h2>
-              </div>
+            <div className="rounded-xl border border-slate-200 bg-white p-6 shadow-sm">
+              <h2 className="text-base font-semibold text-slate-900">
+                Category Breakdown
+              </h2>
 
-              <div className="space-y-4">
+              <div className="mt-6 space-y-4">
                 {dashboard.category_breakdown.map((item) => (
                   <div key={item.category}>
                     <div className="mb-1.5 flex justify-between text-sm font-medium">
-                      <span className="text-neutral-700">{item.category}</span>
-                      <span className="text-neutral-500">{item.hours || 0}h</span>
+                      <span className="text-slate-700">{item.category}</span>
+                      <span className="text-slate-500">{item.hours || 0}h</span>
                     </div>
-                    <div className="h-1.5 rounded-none bg-neutral-100">
+                    <div className="h-1.5 rounded-full bg-slate-100 overflow-hidden">
                       <div
-                        className="h-full rounded-none bg-neutral-900"
+                        className="h-full rounded-full bg-slate-400"
                         style={{ width: `${Math.min(Number(item.hours) * 5, 100)}%` }}
                       />
                     </div>
@@ -210,25 +208,23 @@ export default function Dashboard() {
             </div>
 
             {/* Recent activity */}
-            <div className="pt-4">
-              <div className="mb-4 border-b border-neutral-200 pb-2">
-                <h2 className="text-lg font-medium text-neutral-900">
-                  Recent Activity
-                </h2>
-              </div>
+            <div className="rounded-xl border border-slate-200 bg-white p-6 shadow-sm">
+              <h2 className="text-base font-semibold text-slate-900">
+                Recent Activity
+              </h2>
 
-              <div className="divide-y divide-neutral-100">
+              <div className="mt-5 divide-y divide-slate-100">
                 {dashboard.recent_activity.map((activity) => (
-                  <div key={activity.id} className="flex items-center justify-between py-3">
+                  <div key={activity.id} className="flex items-center justify-between py-3 first:pt-0 last:pb-0">
                     <div className="min-w-0 flex-1 pr-4">
-                      <p className="truncate text-sm font-medium text-neutral-900">
+                      <p className="truncate text-sm font-medium text-slate-900">
                         {activity.skill}
                       </p>
-                      <p className="mt-0.5 text-xs text-neutral-500">
+                      <p className="mt-0.5 text-xs text-slate-500">
                         {activity.date}
                       </p>
                     </div>
-                    <span className="inline-flex shrink-0 items-center rounded bg-neutral-100 px-2 py-1 text-xs font-medium text-neutral-700">
+                    <span className="inline-flex shrink-0 items-center rounded-md bg-slate-50 border border-slate-200 px-2 py-1 text-xs font-medium text-slate-600 shadow-sm">
                       {activity.hours}h
                     </span>
                   </div>
