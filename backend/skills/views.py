@@ -27,7 +27,11 @@ class LearningActivityViewSet(viewsets.ModelViewSet):
     serializer_class = LearningActivitySerializer
 
     def get_queryset(self):
-        return LearningActivity.objects.select_related("goal")
+        queryset = LearningActivity.objects.select_related("goal")
+        goal_id = self.request.query_params.get("goal")
+        if goal_id is not None:
+            queryset = queryset.filter(goal_id=goal_id)
+        return queryset
 
 
 class DashboardAPIView(generics.GenericAPIView):

@@ -16,6 +16,10 @@ class LearningActivitySerializer(serializers.ModelSerializer):
         ]
         read_only_fields = ["id", "created_at"]
 
+    def validate_hours(self, value):
+        if value <= 0:
+            raise serializers.ValidationError("Hours must be strictly greater than 0.")
+        return value
 
 class LearningGoalSerializer(serializers.ModelSerializer):
     total_hours = serializers.DecimalField(
