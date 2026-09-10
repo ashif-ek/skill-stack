@@ -22,6 +22,7 @@ class LearningActivitySerializer(serializers.ModelSerializer):
         return value
 
 class LearningGoalSerializer(serializers.ModelSerializer):
+    activities = LearningActivitySerializer(many=True, read_only=True)
     total_hours = serializers.DecimalField(
         max_digits=7,
         decimal_places=2,
@@ -44,6 +45,7 @@ class LearningGoalSerializer(serializers.ModelSerializer):
             "difficulty",
             "total_hours",
             "activity_count",
+            "activities",
             "created_at",
             "updated_at",
         ]

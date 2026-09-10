@@ -59,13 +59,16 @@ export default function Dashboard() {
         
         {/* Header */}
         <header className="mb-6 flex flex-col md:flex-row md:items-center justify-between gap-4">
-          <div>
-            <h1 className="text-2xl font-bold tracking-tight text-slate-900">
-              SkillStack
-            </h1>
-            <p className="mt-1 text-sm text-slate-500">
-              Build skills. Track progress. Keep moving.
-            </p>
+          <div className="flex items-center gap-3">
+            <img src="/logo.jpg" alt="SkillStack Logo" className="h-10 w-10 rounded-lg shadow-sm object-cover" />
+            <div>
+              <h1 className="text-2xl font-bold tracking-tight text-slate-900">
+                SkillStack
+              </h1>
+              <p className="mt-1 text-sm text-slate-500">
+                Build skills. Track progress. Keep moving.
+              </p>
+            </div>
           </div>
           <button
             onClick={() => setShowAddGoal(true)}

@@ -19,15 +19,15 @@ export default function GoalDetailsModal({ goalId, onClose, onUpdated }) {
     loadGoalDetails();
   }, [goalId]);
 
-  async function loadGoalDetails() {
+  async function loadGoalDetails(isBackground = false) {
     try {
-      setLoading(true);
+      if (!isBackground) setLoading(true);
       const data = await getGoal(goalId);
       setGoal(data);
     } catch {
       setError("Unable to load goal details.");
     } finally {
-      setLoading(false);
+      if (!isBackground) setLoading(false);
     }
   }
 
@@ -35,7 +35,7 @@ export default function GoalDetailsModal({ goalId, onClose, onUpdated }) {
     try {
       setUpdating(true);
       await updateGoal(goalId, { status: newStatus });
-      await loadGoalDetails();
+      await loadGoalDetails(true);
       onUpdated();
     } catch {
       setError("Failed to update status.");
@@ -237,7 +237,11 @@ export default function GoalDetailsModal({ goalId, onClose, onUpdated }) {
                     <div key={activity.id} className="flex flex-col sm:flex-row sm:items-center justify-between p-4 hover:bg-slate-50/50 transition-colors">
                       <div className="mb-2 sm:mb-0">
                         <p className="font-medium text-slate-900">{activity.date}</p>
-                        {activity.notes && <p className="text-sm text-slate-500 mt-0.5">{activity.notes}</p>}
+                        {activity.notes ? (
+                          <p className="text-sm text-slate-500 mt-0.5">{activity.notes}</p>
+                        ) : (
+                          <p className="text-sm text-slate-400 mt-0.5 italic">No notes</p>
+                        )}
                       </div>
                       <span className="font-semibold text-slate-700 bg-slate-50 border border-slate-200 rounded-md px-2.5 py-1 text-xs shrink-0 whitespace-nowrap shadow-sm">
                         {activity.hours} hrs
@@ -300,7 +304,7 @@ export default function GoalDetailsModal({ goalId, onClose, onUpdated }) {
           goalName={goal.skill_name}
           onClose={() => setShowLogActivity(false)}
           onLogged={() => {
-            loadGoalDetails();
+            loadGoalDetails(true);
             onUpdated();
           }}
         />
@@ -311,7 +315,7 @@ export default function GoalDetailsModal({ goalId, onClose, onUpdated }) {
           goal={goal}
           onClose={() => setShowEditGoal(false)}
           onUpdated={() => {
-            loadGoalDetails();
+            loadGoalDetails(true);
             onUpdated();
           }}
         />
