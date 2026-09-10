@@ -78,8 +78,9 @@ class LearningGoalViewSet(viewsets.ModelViewSet):
             insight_data = json.loads(response.text)
             return Response(insight_data)
         except Exception as e:
+            print(f"Exception: {str(e)}")
             return Response(
-                {"error": "Failed to generate insight at this time."},
+                {"error": f"Failed to generate insight at this time. Details: {str(e)}"},
                 status=status.HTTP_500_INTERNAL_SERVER_ERROR,
             )
 
