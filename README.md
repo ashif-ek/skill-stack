@@ -2,6 +2,11 @@
 
 SkillStack is a personal learning tracker for managing learning goals, tracking progress and learning activity, and viewing useful learning insights. It helps you stay organized and motivated by keeping a detailed log of your educational journey.
 
+## Live Application
+
+- **Frontend**: [https://frontend-livid-mu-x6ts3ksswm.vercel.app/](https://frontend-livid-mu-x6ts3ksswm.vercel.app/)
+- **Backend API**: [https://skill-stack-production-6c9b.up.railway.app/api](https://skill-stack-production-6c9b.up.railway.app/api)
+
 ## Features
 
 - **Create and Manage Learning Goals**: Track what you want to learn.
