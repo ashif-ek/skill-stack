@@ -1,20 +1,19 @@
+from django.urls import path
 from rest_framework.routers import DefaultRouter
 
-from .views import LearningActivityViewSet, LearningGoalViewSet
-
+from .views import (
+    DashboardAPIView,
+    LearningActivityViewSet,
+    LearningGoalViewSet,
+)
 
 router = DefaultRouter()
 
-router.register(
-    r"goals",
-    LearningGoalViewSet,
-    basename="learning-goal",
-)
+router.register("goals", LearningGoalViewSet, basename="goal")
+router.register("activities", LearningActivityViewSet, basename="activity")
 
-router.register(
-    r"activities",
-    LearningActivityViewSet,
-    basename="learning-activity",
-)
+urlpatterns = [
+    path("dashboard/", DashboardAPIView.as_view(), name="dashboard"),
+]
 
-urlpatterns = router.urls
+urlpatterns += router.urls
