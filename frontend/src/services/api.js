@@ -47,6 +47,17 @@ export async function getGoal(id) {
   return response.json();
 }
 
+export async function getGoalInsight(id) {
+  const response = await fetch(`${API_URL}/goals/${id}/insight/`);
+  
+  if (!response.ok) {
+    const errorData = await response.json().catch(() => ({}));
+    throw new Error(errorData.error || "Failed to load AI insight");
+  }
+
+  return response.json();
+}
+
 export async function updateGoal(id, data) {
   const response = await fetch(`${API_URL}/goals/${id}/`, {
     method: "PATCH",

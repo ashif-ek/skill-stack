@@ -1,6 +1,11 @@
 from django.db.models import Count, Q, Sum
-from rest_framework import generics, viewsets
+from rest_framework import generics, viewsets, status
+from rest_framework.decorators import action
 from rest_framework.response import Response
+import os
+import json
+from google import genai
+from pydantic import BaseModel
 
 from .models import LearningActivity, LearningGoal
 from .serializers import LearningActivitySerializer, LearningGoalSerializer
@@ -22,6 +27,61 @@ class LearningGoalViewSet(viewsets.ModelViewSet):
             .order_by("-updated_at")
         )
 
+    @action(detail=True, methods=["get"])
+    def insight(self, request, pk=None):
+        api_key = os.environ.get("GEMINI_API_KEY")
+        if not api_key:
+            return Response(
+                {"error": "AI insights are currently unavailable due to missing configuration."},
+                status=status.HTTP_503_SERVICE_UNAVAILABLE,
+            )
+
+        goal = self.get_object()
+        
+        # Gather context
+        recent_activities = list(goal.activities.order_by("-date")[:5].values("date", "hours", "notes"))
+        
+        prompt = f"""
+        Analyze this learning goal and provide a concise, practical learning insight.
+        Keep it short, direct, and useful. No generic motivational text.
+        
+        Goal: {goal.skill_name}
+        Category: {goal.category}
+        Progress: {goal.progress}%
+        Status: {goal.status}
+        Difficulty: {goal.difficulty}
+        Notes: {goal.notes}
+        Recent Activity: {recent_activities}
+        
+        Respond with exactly three points:
+        1. Current learning assessment (1 brief sentence).
+        2. One recommended next step (1 brief sentence).
+        3. One practical resource/topic to focus on (short phrase).
+        """
+        
+        class InsightSchema(BaseModel):
+            assessment: str
+            next_step: str
+            resource_recommendation: str
+
+        try:
+            client = genai.Client(api_key=api_key)
+            response = client.models.generate_content(
+                model='gemini-2.5-flash',
+                contents=prompt,
+                config={
+                    'response_mime_type': 'application/json',
+                    'response_schema': InsightSchema,
+                },
+            )
+            
+            insight_data = json.loads(response.text)
+            return Response(insight_data)
+        except Exception as e:
+            return Response(
+                {"error": "Failed to generate insight at this time."},
+                status=status.HTTP_500_INTERNAL_SERVER_ERROR,
+            )
 
 class LearningActivityViewSet(viewsets.ModelViewSet):
     serializer_class = LearningActivitySerializer
