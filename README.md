@@ -18,6 +18,7 @@ SkillStack is a personal learning tracker for managing learning goals, tracking 
 - **Category-wise Learning Hours**: See a breakdown of time spent across different learning categories.
 - **Recent Activity**: Quickly view your 5 most recent learning sessions.
 - **Learning Pulse**: Get an overview of your momentum based on learning activity over the last 7 days.
+- **AI Learning Insights**: Generates contextual, on-the-fly learning assessments and resource recommendations using the Gemini API based on a goal's progress and recent activity.
 - **Responsive Frontend**: A clean and modern user interface built with React and Tailwind CSS.
 
 ## Tech Stack
@@ -85,6 +86,7 @@ A goal represents the current, overall state of learning, while activities store
 - `GET /api/goals/<id>/`: Retrieve details of a specific learning goal.
 - `PATCH /api/goals/<id>/`: Update a specific learning goal partially.
 - `DELETE /api/goals/<id>/`: Delete a specific learning goal.
+- `GET /api/goals/<id>/insight/`: Fetch an AI-generated learning insight and recommended next steps for a specific goal.
 
 ### Activities
 - `GET /api/activities/`: Retrieve a list of all learning activities.
@@ -96,14 +98,13 @@ A goal represents the current, overall state of learning, while activities store
 ### Dashboard
 - `GET /api/dashboard/`: Retrieve aggregated dashboard statistics, including total stats, learning pulse, category breakdown, and recent activity.
 
-## Environment Variables
-
-The backend requires a `DATABASE_URL` environment variable to connect to the PostgreSQL database.
+The backend requires a `DATABASE_URL` environment variable to connect to the PostgreSQL database, and a `GEMINI_API_KEY` for the AI Learning Insights.
 
 Create a `.env` file in the `backend/` directory:
 
 ```env
 DATABASE_URL=postgresql://<user>:<password>@<host>/<dbname>
+GEMINI_API_KEY=your_google_gemini_api_key
 ```
 *Note: Never commit real credentials or API keys to version control.*
 
@@ -175,9 +176,7 @@ The dashboard provides a comprehensive view of your learning journey by aggregat
 
 The following features are ideas for future development and are **not currently implemented**:
 - Authentication and user accounts
-- AI-powered resource recommendations
 - Mastery-date prediction based on learning velocity
-- Deployment to a production environment
 - Automated weekly learning summaries
 
 ## Demo
@@ -186,4 +185,13 @@ The following features are ideas for future development and are **not currently 
 
 ## Screenshots
 
-*(Add screenshots of the application here)*
+### Dashboard
+![Dashboard Overview](assets/images/dashboard.png)
+*The main SkillStack dashboard tracking learning pulse and goals.*
+
+### Goal Details & AI Insights
+![AI Insight Completed](assets/images/ai_insight_1.png)
+*Context-aware AI insight generated for a completed goal.*
+
+![AI Insight In Progress](assets/images/ai_insight_2.png)
+*Detailed view of a learning goal with its AI assessment.*
