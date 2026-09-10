@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { getGoal, updateGoal, deleteGoal, getGoalInsight } from "../services/api";
 import LogActivityModal from "./LogActivityModal";
 import EditGoalModal from "./EditGoalModal";
+import ConfirmationModal from "./ConfirmationModal";
 
 export default function GoalDetailsModal({ goalId, onClose, onUpdated }) {
   const [goal, setGoal] = useState(null);
@@ -9,6 +10,7 @@ export default function GoalDetailsModal({ goalId, onClose, onUpdated }) {
   const [error, setError] = useState("");
   const [showLogActivity, setShowLogActivity] = useState(false);
   const [showEditGoal, setShowEditGoal] = useState(false);
+  const [showDeleteConfirm, setShowDeleteConfirm] = useState(false);
   const [updating, setUpdating] = useState(false);
 
   const [insight, setInsight] = useState(null);
@@ -45,8 +47,6 @@ export default function GoalDetailsModal({ goalId, onClose, onUpdated }) {
   }
 
   async function handleDelete() {
-    if (!window.confirm("Are you sure you want to delete this goal and all its activities?")) return;
-    
     try {
       setUpdating(true);
       await deleteGoal(goalId);
@@ -55,6 +55,7 @@ export default function GoalDetailsModal({ goalId, onClose, onUpdated }) {
     } catch {
       setError("Failed to delete goal.");
       setUpdating(false);
+      setShowDeleteConfirm(false);
     }
   }
 
@@ -112,7 +113,7 @@ export default function GoalDetailsModal({ goalId, onClose, onUpdated }) {
                 </span>
               </div>
               <p className="mt-1.5 text-sm font-medium text-slate-500">
-                {goal.category} &bull; {goal.platform} &bull; <span className="capitalize">{goal.difficulty}</span> &bull; {goal.resource_type}
+                {goal.category} &bull; <span className="capitalize">{goal.difficulty}</span> &bull; {goal.resource_type}
               </p>
             </div>
 
@@ -163,9 +164,22 @@ export default function GoalDetailsModal({ goalId, onClose, onUpdated }) {
             {goal.resource_url && (
               <div className="mb-8">
                 <h3 className="mb-2 text-xs font-semibold uppercase tracking-wider text-slate-500">Resource Link</h3>
-                <a href={goal.resource_url} target="_blank" rel="noreferrer" className="text-blue-600 hover:underline text-sm font-medium">
-                  {goal.resource_url}
-                </a>
+                <div className="flex items-center gap-2">
+                  <span className="rounded bg-slate-100 px-2 py-1 text-[10px] font-bold uppercase tracking-wider text-slate-600 border border-slate-200">
+                    {goal.platform}
+                  </span>
+                  <a 
+                    href={goal.resource_url} 
+                    target="_blank" 
+                    rel="noreferrer" 
+                    className="inline-flex items-center gap-1 text-blue-600 hover:text-blue-800 hover:underline text-sm font-medium transition-colors"
+                  >
+                    Open Resource
+                    <svg className="h-3.5 w-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
+                    </svg>
+                  </a>
+                </div>
               </div>
             )}
 
@@ -260,7 +274,7 @@ export default function GoalDetailsModal({ goalId, onClose, onUpdated }) {
           {/* Footer Actions */}
           <div className="flex flex-col-reverse sm:flex-row sm:items-center justify-between border-t border-slate-100 bg-slate-50/50 p-4 px-6">
             <button
-              onClick={handleDelete}
+              onClick={() => setShowDeleteConfirm(true)}
               disabled={updating}
               className="text-sm font-medium text-red-600 transition-colors hover:text-red-800 hover:underline disabled:opacity-50 mt-3 sm:mt-0"
             >
@@ -318,6 +332,18 @@ export default function GoalDetailsModal({ goalId, onClose, onUpdated }) {
             loadGoalDetails(true);
             onUpdated();
           }}
+        />
+      )}
+
+      {showDeleteConfirm && (
+        <ConfirmationModal
+          title="Delete Goal"
+          message={`Are you sure you want to delete "${goal.skill_name}"? This will permanently remove all of its logged learning sessions and cannot be undone.`}
+          confirmText="Delete"
+          cancelText="Cancel"
+          onConfirm={handleDelete}
+          onClose={() => setShowDeleteConfirm(false)}
+          isExecuting={updating}
         />
       )}
     </>
