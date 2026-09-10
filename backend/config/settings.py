@@ -142,3 +142,6 @@ STORAGES = {
 
 # Default primary key field type
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
+
+# WhiteNoise Configuration
+WHITENOISE_MANIFEST_STRICT = False
