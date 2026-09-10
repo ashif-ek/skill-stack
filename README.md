@@ -181,7 +181,7 @@ The following features are ideas for future development and are **not currently 
 
 ## Demo
 
-[Demo video](ADD_DEMO_LINK_HERE)
+[Demo video](assets/videos/skill-stack.mp4)
 
 ## Screenshots
 
