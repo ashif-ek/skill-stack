@@ -44,7 +44,7 @@ export default function Footer() {
             GitHub
           </a>
           <a 
-            href="https://ashif-ek.github.io/docs-stack-material/" 
+            href="https://ashif-ek.github.io/docs-stack-material/projects/github_repos/skill-stack/" 
             target="_blank" 
             rel="noreferrer"
             className="text-sm font-medium text-slate-500 hover:text-slate-900 transition-colors"
